@@ -1,6 +1,5 @@
 package org.example.service
 
-import org.example.dto.Interval
 import org.example.dto.Step
 import org.example.mapper.StepsMapper
 import org.openqa.selenium.By
@@ -27,8 +26,8 @@ class GarminService {
 
     private fun clearInitialScreen(driver: ChromeDriver) {
         val btnDelete = driver.findElements(By.className("icon-trash"))
-        for (b in btnDelete) {
-            b.click()
+        btnDelete.forEach {
+            it.click()
             Thread.sleep(500)
             driver.findElement(By.className("Button_btnDanger__137s7")).click()
         }
@@ -38,7 +37,7 @@ class GarminService {
         var first = (step.repeat > 1)
         var divRepeat: WebElement
 
-        for (i: Interval in step.intervals) {
+        step.intervals.forEach {
             if (step.repeat > 1) {
                 if (first) {
                     driver.findElements(By.className("Button_btnSmall__J8IWB")).last().click()
@@ -65,22 +64,22 @@ class GarminService {
 
             Select(driver.findElement(By.id("select-primary-target"))).selectByValue("heart.rate.zone")
             Thread.sleep(500)
-            if (i.time.contains("min")) {
-                driver.findElement(By.className("TimeDurationInput_minutes__20akP")).sendKeys(i.time.filter{ it.isDigit() })
+            if (it.time.contains("min")) {
+                driver.findElement(By.className("TimeDurationInput_minutes__20akP")).sendKeys(it.time.filter{t -> t.isDigit() })
             } else {
                 driver.findElement(By.className("TimeDurationInput_minutes__20akP"))
                     .sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE))
-                driver.findElement(By.className("TimeDurationInput_seconds__n9cXY")).sendKeys(i.time.filter{ it.isDigit() })
+                driver.findElement(By.className("TimeDurationInput_seconds__n9cXY")).sendKeys(it.time.filter{t -> t.isDigit() })
             }
 
             Thread.sleep(500)
             val hrTo: WebElement = driver.findElement(By.id("target-hr-to"))
             hrTo.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE))
-            hrTo.sendKeys((i.bpm.plus(10)).toString())
+            hrTo.sendKeys((it.bpm.plus(10)).toString())
             Thread.sleep(500)
             val hrInput: WebElement = driver.findElement(By.id("target-hr-input"))
             hrInput.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE))
-            hrInput.sendKeys(i.bpm.minus(10).toString())
+            hrInput.sendKeys(it.bpm.minus(10).toString())
             Thread.sleep(500)
             driver.findElement(By.className("WorkoutStep_doneButton__xJZOm")).click()
             Thread.sleep(500)
