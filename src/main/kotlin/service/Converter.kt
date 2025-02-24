@@ -1,8 +1,6 @@
 package org.example.service
 
 object Converter {
-    const val LTHR = 170
-
     val mapTable = mapOf(
         Pair(35, 81.0),
         Pair(36, 81.0),

@@ -13,10 +13,10 @@ import org.openqa.selenium.support.ui.Select
 
 class GarminService {
 
-    fun start(instructions: List<String>) {
+    fun start(instructions: List<String>, lthr: Int) {
 
         val driver = ChromeDriver(ChromeOptions().setExperimentalOption("debuggerAddress", "127.0.0.1:9222"))
-        val steps = StepsMapper.toSteps(instructions)
+        val steps = StepsMapper.toSteps(instructions, lthr)
 
         clearInitialScreen(driver)
 
