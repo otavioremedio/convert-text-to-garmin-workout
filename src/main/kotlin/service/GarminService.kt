@@ -35,39 +35,32 @@ class GarminService {
     }
 
     private fun createStep(step: Step, driver: WebDriver) {
-        val count: Int
-        var first = false
-
-        if (step.repeat > 1) {
-            count = step.repeat
-            first = true
-        } else count = 1
+        var first = (step.repeat > 1)
+        var divRepeat: WebElement
 
         for (i: Interval in step.intervals) {
-            if (count > 1) {
+            if (step.repeat > 1) {
                 if (first) {
                     driver.findElements(By.className("Button_btnSmall__J8IWB")).last().click()
-                }
-            } else driver.findElements(By.className("Button_btnSmall__J8IWB")).first().click()
-            Thread.sleep(500)
-
-            if (count > 1) {
-                val divRepeat: WebElement =
-                    driver.findElements(By.className("WorkoutRepeatStep_repeatStepWrapper__s9T1j")).last()
-                if (first) {
+                    divRepeat= driver.findElements(By.className("WorkoutRepeatStep_repeatStepWrapper__s9T1j")).last()
                     val inputTimes: WebElement = divRepeat.findElement(By.className("FlexInput_input__FhFbe"))
                     inputTimes.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE))
-                    inputTimes.sendKeys(count.toString())
+                    inputTimes.sendKeys(step.repeat.toString())
                     divRepeat.findElements(By.className("WorkoutStep_stepFieldsWrapper__Dmd26")).first().click()
                     Thread.sleep(500)
                     first = false
                 } else {
+                    divRepeat = driver.findElements(By.className("WorkoutRepeatStep_repeatStepWrapper__s9T1j")).last()
                     divRepeat.findElements(By.className("WorkoutStep_stepFieldsWrapper__Dmd26")).last().click()
                     Select(divRepeat.findElement(By.id("select-details"))).selectByValue("interval")
                     Select(divRepeat.findElement(By.id("select-duration-rest-options"))).selectByValue("time")
                     Thread.sleep(500)
                 }
-            } else driver.findElements(By.className("WorkoutStep_stepReadOnlyWrapper__u3DgD")).last().click()
+            } else {
+                driver.findElements(By.className("Button_btnSmall__J8IWB")).first().click()
+                Thread.sleep(500)
+                driver.findElements(By.className("WorkoutStep_stepReadOnlyWrapper__u3DgD")).last().click()
+            }
             Thread.sleep(500)
 
             Select(driver.findElement(By.id("select-primary-target"))).selectByValue("heart.rate.zone")
