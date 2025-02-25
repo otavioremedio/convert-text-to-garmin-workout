@@ -7,7 +7,7 @@ import java.util.regex.Pattern
 
 object StepsMapper {
     private val patternWatts = Pattern.compile("(\\d+w)")
-    private val patternTime = Pattern.compile("(\\d+.sec|\\d+.min)")
+    private val patternTime = Pattern.compile("(\\d+.sec|(\\d:)?\\d+.min)")
     private val patternRepeat = Pattern.compile("(\\d+.X)")
     private val patternWarmCool = Pattern.compile("Warm-Up|Cooldown").toRegex()
 

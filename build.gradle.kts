@@ -12,6 +12,8 @@ repositories {
 dependencies {
     implementation("org.seleniumhq.selenium:selenium-chrome-driver:4.29.0")
     implementation("org.seleniumhq.selenium:selenium-support:4.29.0")
+    implementation("org.seleniumhq.selenium:selenium-devtools-v118:4.16.1")
+
     testImplementation(kotlin("test"))
 }
 

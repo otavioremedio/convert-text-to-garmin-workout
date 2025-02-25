@@ -65,7 +65,13 @@ class GarminService {
             Select(driver.findElement(By.id("select-primary-target"))).selectByValue("heart.rate.zone")
             Thread.sleep(500)
             if (it.time.contains("min")) {
-                driver.findElement(By.className("TimeDurationInput_minutes__20akP")).sendKeys(it.time.filter{t -> t.isDigit() })
+                if(it.time.contains(":")) {
+                    val timeSplited = it.time.split(":")
+                    driver.findElement(By.className("TimeDurationInput_minutes__20akP")).sendKeys(timeSplited[0])
+                    driver.findElement(By.className("TimeDurationInput_seconds__n9cXY")).sendKeys(timeSplited[1].filter{t -> t.isDigit() })
+                } else {
+                    driver.findElement(By.className("TimeDurationInput_minutes__20akP")).sendKeys(it.time.filter{t -> t.isDigit() })
+                }
             } else {
                 driver.findElement(By.className("TimeDurationInput_minutes__20akP"))
                     .sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE))
