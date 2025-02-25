@@ -6,9 +6,10 @@ import org.example.dto.Step
 import java.util.regex.Pattern
 
 object StepsMapper {
-    private val patternWatts: Pattern = Pattern.compile("(\\d+w)")
-    private val patternTime: Pattern = Pattern.compile("(\\d+.sec|\\d+.min)")
-    private val patternRepeat: Pattern = Pattern.compile("(\\d+.X)")
+    private val patternWatts = Pattern.compile("(\\d+w)")
+    private val patternTime = Pattern.compile("(\\d+.sec|\\d+.min)")
+    private val patternRepeat = Pattern.compile("(\\d+.X)")
+    private val patternWarmCool = Pattern.compile("Warm-Up|Cooldown").toRegex()
 
     fun toSteps(instructions: List<String>, lthr: Int) =
         mutableListOf<Step>().apply {
@@ -25,7 +26,7 @@ object StepsMapper {
 
     private fun toIntervals(step: String, lthr: Int): List<Interval> {
         val intervals = mutableListOf<Interval>()
-        patternWatts.matcher(step).results().toList().forEachIndexed { idx, m ->
+        patternWatts.matcher(convertWarmCool(step)).results().toList().forEachIndexed { idx, m ->
             val ftp = m.group().replace("w","").toInt()
             intervals.add(
                 Interval(
@@ -38,6 +39,8 @@ object StepsMapper {
 
         return intervals
     }
+
+    private fun convertWarmCool(step: String) = step.replace(patternWarmCool, "(50w)")
 
     private fun toRepeat(step: String) = patternRepeat.matcher(step).results().toList().firstOrNull()?.group()
 
