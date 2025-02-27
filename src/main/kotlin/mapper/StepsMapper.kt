@@ -18,9 +18,9 @@ object StepsMapper {
             }
         }
 
-    private fun toStep(step: String, lthr: Int) =
+    private fun toStep(step: String, lhtr: Int) =
         Step(
-            intervals = toIntervals(step, lthr),
+            intervals = toIntervals(step, lhtr),
             repeat = toRepeat(step)?.replace("X", "")?.trim()?.toInt() ?: 1
         )
 
