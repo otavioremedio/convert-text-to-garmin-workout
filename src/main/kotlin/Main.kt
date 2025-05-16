@@ -8,7 +8,7 @@ fun main() {
     val scanner = Scanner(System.`in`)
     val instructions = mutableListOf<String>()
     var line: String
-    val lthr: String
+    val name: String
 
     println("Copy and paste the instructions:")
 
@@ -19,13 +19,13 @@ fun main() {
             instructions.add(line)
         }
         else {
-            println("Enter your LTHR:")
-            lthr = scanner.nextLine()
+            println("Enter the training name:")
+            name = scanner.nextLine()
             break
         }
     }
 
-    GarminService().start(instructions, lthr.toInt())
+    GarminService().start(instructions, name)
 }
 
 

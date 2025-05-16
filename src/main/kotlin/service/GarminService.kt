@@ -12,16 +12,26 @@ import org.openqa.selenium.support.ui.Select
 
 class GarminService {
 
-    fun start(instructions: List<String>, lthr: Int) {
+    fun start(instructions: List<String>, name: String) {
 
         val driver = ChromeDriver(ChromeOptions().setExperimentalOption("debuggerAddress", "127.0.0.1:9222"))
-        val steps = StepsMapper.toSteps(instructions, lthr)
+        val steps = StepsMapper.toSteps(instructions)
 
         clearInitialScreen(driver)
 
         steps.forEach { step: Step ->
             createStep(step, driver)
         }
+
+        driver.findElement(By.className("icon-pencil")).click()
+        Thread.sleep(500)
+        driver.findElement(By.className("WorkoutName_workoutName__E7sq8")).sendKeys(name)
+        Thread.sleep(500)
+        driver.findElement(By.className("icon-checkmark")).click()
+        Thread.sleep(500)
+        driver.findElement(By.className("Button_btn__g8LLk")).click()
+        Thread.sleep(2000)
+        driver.findElement(By.className("Button_btn__g8LLk")).click()
     }
 
     private fun clearInitialScreen(driver: ChromeDriver) {
@@ -81,11 +91,11 @@ class GarminService {
             Thread.sleep(500)
             val hrTo: WebElement = driver.findElement(By.id("target-hr-to"))
             hrTo.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE))
-            hrTo.sendKeys((it.bpm.plus(10)).toString())
+            hrTo.sendKeys((it.bpmMax).toString())
             Thread.sleep(500)
             val hrInput: WebElement = driver.findElement(By.id("target-hr-input"))
             hrInput.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE))
-            hrInput.sendKeys(it.bpm.minus(10).toString())
+            hrInput.sendKeys(it.bpmMin.toString())
             Thread.sleep(500)
             driver.findElement(By.className("WorkoutStep_doneButton__xJZOm")).click()
             Thread.sleep(500)

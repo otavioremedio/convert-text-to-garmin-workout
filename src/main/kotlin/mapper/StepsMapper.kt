@@ -1,37 +1,37 @@
 package org.example.mapper
 
-import org.example.service.Converter
+import java.util.regex.Pattern
 import org.example.dto.Interval
 import org.example.dto.Step
-import java.util.regex.Pattern
 
 object StepsMapper {
     private val patternWatts = Pattern.compile("(\\d+w)")
     private val patternTime = Pattern.compile("(\\d+.sec|(\\d:)?\\d+.min)")
     private val patternRepeat = Pattern.compile("(\\d+.X)")
     private val patternWarmCool = Pattern.compile("Warm-Up|Cooldown").toRegex()
+    private val patternBpm = Pattern.compile("(\\d+-\\d+)")
 
-    fun toSteps(instructions: List<String>, lthr: Int) =
+    fun toSteps(instructions: List<String>) =
         mutableListOf<Step>().apply {
             instructions.forEach { i ->
-                this.add(toStep(i, lthr))
+                this.add(toStep(i))
             }
         }
 
-    private fun toStep(step: String, lhtr: Int) =
+    private fun toStep(step: String) =
         Step(
-            intervals = toIntervals(step, lhtr),
+            intervals = toIntervals(step),
             repeat = toRepeat(step)?.replace("X", "")?.trim()?.toInt() ?: 1
         )
 
-    private fun toIntervals(step: String, lthr: Int): List<Interval> {
+    private fun toIntervals(step: String): List<Interval> {
         val intervals = mutableListOf<Interval>()
-        patternWatts.matcher(convertWarmCool(step)).results().toList().forEachIndexed { idx, m ->
-            val ftp = m.group().replace("w","").toInt()
+        patternBpm.matcher(step).results().toList().forEachIndexed { idx, m ->
+            val (bpmMin, bpmMax) = m.group().split("-").map { it.toInt() }
             intervals.add(
                 Interval(
-                    ftp = ftp,
-                    bpm = (lthr * (Converter.mapTable[ftp]!! / 100)).toInt(),
+                    bpmMin = bpmMin,
+                    bpmMax = bpmMax,
                     time = toTime(step, idx)
                 )
             )

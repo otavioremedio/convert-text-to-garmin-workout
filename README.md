@@ -10,18 +10,10 @@ You must have Java installed >= 18.
 * Open Chrome to the page https://connect.garmin.com/modern/workout/create/cycling
 * Run the program with the command: java -jar .\build\libs\GarminConnect-1.0-SNAPSHOT.jar
 * Paste the training instructions in like format below, and at the end press enter twice<br>
-  7 X (1 min @ 75% (75w) 35-45 rpm with 2 min @ 40% (40w) rest )<br>
-  1 min @ 75% (75w) 35-45 rpm<br>
-  2 min @ 50% (50w) 50-100 rpm<br>
-  5 min @ 65% (65w) 92-102 rpm<br>
-  2 min @ 71% (71w)<br>
-  5 min @ 60% (60w) 92-102 rpm<br>
-  2 min @ 70% (70w)<br>
-  5 min @ 69% (69w) 92-102 rpm<br>
-  3 min @ 68% (68w)<br>
-  5 min @ 60% (60w) 92-102 rpm<br>
-  1 min @ 55% (55w)<br>
-  3 min @ 50% (50w) 92-102 rpm<br>
+  15 min @ 100-142 bpm<br>
+  2 X (30 min @ 143-161 bpm with 10 min @ 100-142 bpm)<br>
+  80 min @ 125-142 bpm<br>
+  15 min @ 100-125 bpm<br>
   
 * Enter your LHTR and press enter
 * PS: Conversions will be done based on the approximate parameters below,
