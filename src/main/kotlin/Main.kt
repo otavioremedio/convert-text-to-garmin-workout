@@ -1,31 +1,84 @@
 package org.example
 
-import org.example.service.GarminService
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import java.io.File
 import java.util.*
+import org.example.service.GarminService
+
+//fun main() {
+//
+//    val scanner = Scanner(System.`in`)
+//    val instructions = mutableListOf<String>()
+//    var line: String
+//    val lthr: String
+//
+//    println("Copy and paste the instructions:")
+//
+//    while (true) {
+//        line = scanner.nextLine()
+//
+//        if (line.isNotEmpty()) {
+//            instructions.add(line)
+//        }
+//        else {
+//            println("Enter your LTHR:")
+//            lthr = scanner.nextLine()
+//            break
+//        }
+//    }
+//
+//    GarminService().start(instructions, lthr.toInt())
+//}
+
 
 fun main() {
 
     val scanner = Scanner(System.`in`)
-    val instructions = mutableListOf<String>()
     var line: String
-    val lthr: String
-
-    println("Copy and paste the instructions:")
+    val params = StringBuilder()
 
     while (true) {
         line = scanner.nextLine()
 
         if (line.isNotEmpty()) {
-            instructions.add(line)
-        }
-        else {
-            println("Enter your LTHR:")
-            lthr = scanner.nextLine()
+            params.append("$line\n" )
+        } else {
             break
         }
     }
 
-    GarminService().start(instructions, lthr.toInt())
+    createDTO(params.trim().toString())
 }
+
+fun createDTO(params: String) {
+    val messageDto = MessageDto(params.trim().split("\n").map { line ->
+        val (merchantCode, psMerchant) = line.split("\t")
+        ParamsDto(merchantCode, psMerchant)
+    })
+    messageDto.params.chunked(50)
+        .map { MessageDto(it) }
+        .let {
+            GarminService().start(it, 0)
+//            File("payloads.json")
+//                .printWriter()
+//                .use { out ->
+//                    it.forEach { p ->
+//                        out.println(jacksonObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(p))
+//                    }
+//                }
+        }
+}
+
+
+
+data class MessageDto(
+    val params: List<ParamsDto> = listOf()
+)
+
+data class ParamsDto(
+    val merchant_code: String,
+    val ps_merchant: String,
+    val quantity: Int = 2000
+)
 
 

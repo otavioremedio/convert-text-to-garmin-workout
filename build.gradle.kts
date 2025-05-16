@@ -13,6 +13,7 @@ dependencies {
     implementation("org.seleniumhq.selenium:selenium-chrome-driver:4.29.0")
     implementation("org.seleniumhq.selenium:selenium-support:4.29.0")
     implementation("org.seleniumhq.selenium:selenium-devtools-v118:4.16.1")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.3")
 
     testImplementation(kotlin("test"))
 }

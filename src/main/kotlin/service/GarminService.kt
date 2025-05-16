@@ -1,7 +1,9 @@
 package org.example.service
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import java.awt.SystemColor.text
+import org.example.MessageDto
 import org.example.dto.Step
-import org.example.mapper.StepsMapper
 import org.openqa.selenium.By
 import org.openqa.selenium.Keys
 import org.openqa.selenium.WebDriver
@@ -10,17 +12,33 @@ import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.support.ui.Select
 
+
 class GarminService {
 
-    fun start(instructions: List<String>, lthr: Int) {
+    fun start(instructions: List<MessageDto>, lthr: Int) {
 
         val driver = ChromeDriver(ChromeOptions().setExperimentalOption("debuggerAddress", "127.0.0.1:9222"))
-        val steps = StepsMapper.toSteps(instructions, lthr)
+ //       val steps = StepsMapper.toSteps(instructions, lthr)
+//
+//        clearInitialScreen(driver)
+//
+//        steps.forEach { step: Step ->
+//            createStep(step, driver)
+//        }
 
-        clearInitialScreen(driver)
+        instructions.forEach {
+            val text = jacksonObjectMapper().writeValueAsString(it)
+            val element = driver.findElement(By.className("form-control"))
+            driver.executeScript("arguments[0].value='$text';", element)
+            //.sendKeys(jacksonObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(it))
+            Thread.sleep(500)
+            driver.findElements(By.className("btn-primary")).first().click()
+            Thread.sleep(5000)
 
-        steps.forEach { step: Step ->
-            createStep(step, driver)
+            val responseElem = driver.findElements(By.className("font-weight-bold")).last()
+            val response = responseElem.text
+            if(listOf("not correspond", "does not exist", "Falha ao importar").any { e -> e in response })
+                return@forEach
         }
     }
 

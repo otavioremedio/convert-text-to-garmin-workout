@@ -31,5 +31,9 @@ You must have Java installed >= 18.
 
 Enjoy!
 
+Total 240 Minutes
+Warm-Up 235 min
+Cooldown 5 min
+
 
 
