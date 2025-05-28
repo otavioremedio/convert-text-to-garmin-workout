@@ -29,9 +29,9 @@ class GarminService {
         Thread.sleep(500)
         driver.findElement(By.className("icon-checkmark")).click()
         Thread.sleep(500)
-        driver.findElement(By.className("Button_btn__g8LLk")).click()
+        driver.findElement(By.className("Button_btnPrimary__1NpC1")).click()
         Thread.sleep(2000)
-        driver.findElement(By.className("Button_btn__g8LLk")).click()
+        driver.findElement(By.className("Button_btnPrimary__1NpC1")).click()
     }
 
     private fun clearInitialScreen(driver: ChromeDriver) {
