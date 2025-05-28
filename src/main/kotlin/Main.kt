@@ -33,6 +33,8 @@ import org.example.service.GarminService
 
 fun main() {
 
+    collectAndWriteFirstLines()
+
     val scanner = Scanner(System.`in`)
     var line: String
     val params = StringBuilder()
@@ -52,8 +54,8 @@ fun main() {
 
 fun createDTO(params: String) {
     val messageDto = MessageDto(params.trim().split("\n").map { line ->
-        val (merchantCode, psMerchant) = line.split("\t")
-        ParamsDto(merchantCode, psMerchant)
+        val (psMerchant) = line.split("\t")
+        ParamsDto(ps_merchant = psMerchant)
     })
     messageDto.params.chunked(50)
         .map { MessageDto(it) }
@@ -76,9 +78,28 @@ data class MessageDto(
 )
 
 data class ParamsDto(
-    val merchant_code: String,
+    val merchant_code: String? = null,
     val ps_merchant: String,
     val quantity: Int = 2000
 )
+
+fun collectAndWriteFirstLines() {
+    val directory = File("/home/oremedio/Downloads")
+    val outputFile = File("/home/oremedio/Downloads/output.csv")
+
+    if (directory.exists() && directory.isDirectory) {
+        val firstLines = directory.listFiles { file -> file.name.startsWith("subscription") && file.extension == "csv" }
+            ?.mapNotNull { file ->
+                file.useLines { lines -> lines.drop(1).firstOrNull() }
+            } ?: emptyList()
+
+        outputFile.printWriter().use { writer ->
+            writer.println("cod_merchant;quantity;success;errors")
+            firstLines.forEach { line ->
+                writer.println(line)
+            }
+        }
+    }
+}
 
 

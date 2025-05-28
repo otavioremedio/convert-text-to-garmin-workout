@@ -27,18 +27,22 @@ class GarminService {
 //        }
 
         instructions.forEach {
-            val text = jacksonObjectMapper().writeValueAsString(it)
-            val element = driver.findElement(By.className("form-control"))
-            driver.executeScript("arguments[0].value='$text';", element)
-            //.sendKeys(jacksonObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(it))
-            Thread.sleep(500)
-            driver.findElements(By.className("btn-primary")).first().click()
-            Thread.sleep(5000)
+            val ids = it.params.map { m -> m.ps_merchant }
+           // val text = jacksonObjectMapper().writeValueAsString(it)
 
-            val responseElem = driver.findElements(By.className("font-weight-bold")).last()
-            val response = responseElem.text
-            if(listOf("not correspond", "does not exist", "Falha ao importar").any { e -> e in response })
-                return@forEach
+            ids.forEach { id ->
+                val element = driver.findElement(By.className("form-control"))
+                driver.executeScript("arguments[0].value='$id';", element)
+                //.sendKeys(jacksonObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(it))
+                Thread.sleep(500)
+                driver.findElements(By.className("btn-primary")).first().click()
+ //               Thread.sleep(60000)
+//
+//                val responseElem = driver.findElements(By.className("font-weight-bold")).last()
+//                val response = responseElem.text
+//                if (listOf("not correspond", "does not exist", "Falha ao importar").any { e -> e in response })
+//                    return@forEach
+            }
         }
     }
 
