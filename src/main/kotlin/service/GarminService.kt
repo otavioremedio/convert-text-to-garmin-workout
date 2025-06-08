@@ -91,13 +91,13 @@ class GarminService {
             }
 
             Thread.sleep(500)
-            val hrTo: WebElement = driver.findElement(By.id("target-hr-to"))
-            hrTo.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE))
-            hrTo.sendKeys((it.bpmMax).toString())
-            Thread.sleep(500)
             val hrInput: WebElement = driver.findElement(By.id("target-hr-input"))
             hrInput.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE))
             hrInput.sendKeys(it.bpmMin.toString())
+            Thread.sleep(500)
+            val hrTo: WebElement = driver.findElement(By.id("target-hr-to"))
+            hrTo.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE))
+            hrTo.sendKeys((it.bpmMax).toString())
             Thread.sleep(500)
             driver.findElement(By.className("WorkoutStep_doneButton__xJZOm")).click()
             Thread.sleep(500)
