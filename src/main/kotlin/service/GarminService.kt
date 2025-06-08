@@ -17,7 +17,7 @@ class GarminService {
         val driver = ChromeDriver(ChromeOptions().setExperimentalOption("debuggerAddress", "127.0.0.1:9222"))
         val steps = StepsMapper.toSteps(instructions)
         driver.get("https://connect.garmin.com/modern/workout/create/cycling")
-        Thread.sleep(1500)
+        Thread.sleep(2000)
 
         clearInitialScreen(driver)
 
