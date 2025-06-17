@@ -31,9 +31,9 @@ class GarminService {
         Thread.sleep(500)
         driver.findElement(By.className("icon-checkmark")).click()
         Thread.sleep(500)
-        driver.findElement(By.className("Button_btnPrimary__1NpC1")).click()
+        driver.findElement(By.className("Button_primary__7zt4j")).click()
         Thread.sleep(2000)
-        driver.findElement(By.className("Button_btnPrimary__1NpC1")).click()
+        driver.findElement(By.className("Button_primary__7zt4j")).click()
     }
 
     private fun clearInitialScreen(driver: ChromeDriver) {
@@ -41,7 +41,7 @@ class GarminService {
         btnDelete.forEach {
             it.click()
             Thread.sleep(500)
-            driver.findElement(By.className("Button_btnDanger__137s7")).click()
+            driver.findElement(By.className("Button_danger__hwLq8")).click()
         }
     }
 
@@ -52,7 +52,7 @@ class GarminService {
         step.intervals.forEach {
             if (step.repeat > 1) {
                 if (first) {
-                    driver.findElements(By.className("Button_btnSmall__J8IWB")).last().click()
+                    driver.findElements(By.className("Button_small__waifo")).last().click()
                     divRepeat= driver.findElements(By.className("WorkoutRepeatStep_repeatStepWrapper__s9T1j")).last()
                     val inputTimes: WebElement = divRepeat.findElement(By.className("FlexInput_input__FhFbe"))
                     inputTimes.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE))
@@ -68,7 +68,7 @@ class GarminService {
                     Thread.sleep(500)
                 }
             } else {
-                driver.findElements(By.className("Button_btnSmall__J8IWB")).first().click()
+                driver.findElements(By.className("Button_small__waifo")).first().click()
                 Thread.sleep(500)
                 driver.findElements(By.className("WorkoutStep_stepReadOnlyWrapper__u3DgD")).last().click()
             }
